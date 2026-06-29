@@ -17,7 +17,7 @@
 The task: infer latent user intent from four dimensions of on-device context, then generate an executable function sequence from a unified function pool.
 
 - 📱 **14** real-world scenarios
-- 📊 **3,660+** instances with multi-answer (1–3 target actions) annotations
+- 📊 **3,658** instances with multi-answer (1–3 target actions) annotations
 - 🔧 **61** executable APIs
 - 🧭 Four context dimensions: **User Profile · Device Status · World Information · Behavioral Trajectories**
 
