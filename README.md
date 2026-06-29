@@ -2,47 +2,48 @@
 
 <div align="center">
 
-
-
-[![Paper](https://img.shields.io/badge/Paper-arXiv-red)](https://arxiv.org/abs/2602.21858)
-[![Code License](https://img.shields.io/badge/Code-MIT-blue.svg)](LICENSE)
-[![Data License](https://img.shields.io/badge/Data-CC%20BY--NC--SA%204.0-green.svg)]()
+[![Paper](https://img.shields.io/badge/Paper-arXiv:2602.21858-red)](https://arxiv.org/abs/2602.21858)
+[![Dataset](https://img.shields.io/badge/🤗%20Dataset-ProactiveMobile-yellow)](https://huggingface.co/datasets/xiaomi-research/ProactiveMobile)
+[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 </div>
 
 ---
 
-## 📢 News
+## Overview
 
-- **[2026.05]** 🔥 Code, dataset, and function pool released.
-- **[2026.02]** 🎉 ProactiveMobile accepted to **CVPR 2026**. 
+**ProactiveMobile** is an executable benchmark for **proactive intelligence in mobile agents** — moving beyond the reactive paradigm (passively executing user commands) toward agents that **anticipate user needs and act on their own**.
 
----
+The task: infer latent user intent from four dimensions of on-device context, then generate an executable function sequence from a unified function pool.
 
-# 📖 Overview
+- 📱 **14** real-world scenarios
+- 📊 **3,660+** instances with multi-answer (1–3 target actions) annotations
+- 🔧 **61** executable APIs
+- 🧭 Four context dimensions: **User Profile · Device Status · World Information · Behavioral Trajectories**
 
-**ProactiveMobile** is the first executable benchmark designed to evaluate **proactive intelligence in mobile agents**.
+> **Note on the function pool.** For this release, semantically overlapping functions were consolidated, and the pool was pruned to the **61 APIs actually used** by the benchmark.
 
-Unlike traditional reactive benchmarks that measure instruction-following ability, ProactiveMobile evaluates whether models can:
+## Dataset
 
-- Anticipate latent user intent  
-- Reason over multi-source contextual signals  
-- Generate executable API call sequences  
-- Avoid unnecessary or unsafe triggers  
+🤗 [**xiaomi-research/ProactiveMobile**](https://huggingface.co/datasets/xiaomi-research/ProactiveMobile)
 
-The benchmark includes:
+```python
+from datasets import load_dataset
 
-- 📱 14 real-world mobile scenarios  
-- 📊 3,600+ annotated instances  
-- 🔧 63 executable API functions  
-- 🎯 Multi-answer annotations  
-- 🛡 Safety-aware evaluation protocol  
+dataset = load_dataset("xiaomi-research/ProactiveMobile")
+```
 
-This repository provides:
+## Citation
 
-- Official dataset splits  
-- Training and inference scripts  
-- Evaluation toolkit  
-- Baseline reproduction scripts  
+```bibtex
+@article{kong2026proactivemobile,
+  title   = {ProactiveMobile: A Comprehensive Benchmark for Boosting Proactive Intelligence on Mobile Devices},
+  author  = {Kong, Dezhi and Feng, Zhengzhao and Liang, Qiliang and others},
+  journal = {arXiv preprint arXiv:2602.21858},
+  year    = {2026}
+}
+```
 
----
+## License
+
+Released under [**CC BY-NC-SA 4.0**](https://creativecommons.org/licenses/by-nc-sa/4.0/) — non-commercial use, attribution required, share-alike.
