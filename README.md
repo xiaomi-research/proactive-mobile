@@ -33,6 +33,80 @@ from datasets import load_dataset
 dataset = load_dataset("xiaomi-research/ProactiveMobile")
 ```
 
+## Model
+
+The fine-tuned proactive agent (Qwen2.5-VL-7B-Instruct + Proactive) will be released on 🤗 Hugging Face. *(Link coming soon.)*
+
+## Inference & Evaluation
+
+`evaluation/inference_and_eval.py` runs local [vLLM](https://github.com/vllm-project/vllm)
+inference over the benchmark and scores it. It is a single, dependency-light file
+(standard library + `vllm` + `Pillow`).
+
+### Install
+
+```bash
+pip install vllm pillow
+```
+
+### Data format
+
+Each instance provides four context dimensions under `reference_information`
+(`profile` / `phone` / `world` / `trace`) and one or more gold `recommendations`.
+`trace` is either a list of screenshot steps (**GUI** data) or a natural-language
+operation sequence (**TEXT** data). The model is asked to emit a three-part output:
+
+```
+<think>reasoning</think><rec>natural-language recommendation</rec><function>{"model_recommendation": [...]}</function>
+```
+
+Only the `<function>` part is scored.
+
+### Step 1 — inference
+
+```bash
+python evaluation/inference_and_eval.py \
+    --mode eval \
+    --model_path <path-or-hf-id-of-the-model> \
+    --eval_file   benchmark_zh.json \
+    --function_pool_file function_pool.json \
+    --output_format thinking recommendation \
+    --tensor_parallel_size 4 --pipeline_parallel_size 2 \
+    --output_path ./result
+```
+
+For GUI data, screenshot paths in `trace` must resolve on disk. If your dataset
+stores relative paths (e.g. `Benchmark/....png`), map them to your local image
+root with `--image_prefix Benchmark/ --image_root /your/image/root`.
+
+> **GPU layout.** vLLM uses tensor parallelism; Qwen2.5-VL-7B has 28 attention
+> heads, so `--tensor_parallel_size` must divide 28 (use 1/2/4/7/14). To use 8
+> GPUs, combine tensor + pipeline parallel, e.g. `--tensor_parallel_size 4
+> --pipeline_parallel_size 2`.
+
+### Step 2 — compute metrics
+
+```bash
+python evaluation/inference_and_eval.py \
+    --mode compute \
+    --model_path <path-or-hf-id-of-the-model> \
+    --eval_file   benchmark_zh.json \
+    --function_pool_file function_pool.json \
+    --output_path ./result
+```
+
+This prints and logs, broken down by **difficulty (L1/L2/L3) × modality (GUI/TEXT)**:
+
+| Metric | Definition |
+|--------|------------|
+| **Type-Acc** | function-name sequence exact match (order + length) against the best-matching gold |
+| **Precision / Recall / F1** | set-based overlap of function names vs. the best-matching gold |
+| **FTR** (False Trigger Rate) | on *no-action* instances (gold is empty), the fraction where the model nonetheless predicted an action — lower is better |
+
+Sampling defaults to greedy decoding (`--temperature 0`) for fully reproducible
+results. The paper reports numbers at `--temperature 1.0`; pass that flag to
+reproduce the exact paper setting.
+
 ## Citation
 
 ```bibtex
