@@ -103,9 +103,29 @@ This prints and logs, broken down by **difficulty (L1/L2/L3) × modality (GUI/TE
 | **Precision / Recall / F1** | set-based overlap of function names vs. the best-matching gold |
 | **FTR** (False Trigger Rate) | on *no-action* instances (gold is empty), the fraction where the model nonetheless predicted an action — lower is better |
 
-Sampling defaults to greedy decoding (`--temperature 0`) for fully reproducible
-results. The paper reports numbers at `--temperature 1.0`; pass that flag to
-reproduce the exact paper setting.
+### Sampling: greedy (temperature = 0) is recommended
+
+The script **defaults to greedy decoding (`--temperature 0`)**, which we recommend
+for evaluation: the output is deterministic and fully reproducible (identical
+results across runs), and avoids the run-to-run variance that `temperature = 1.0`
+introduces — especially in FTR, which is sensitive to borderline no-action cases.
+The paper reports numbers at `temperature = 1.0`; pass `--temperature 1.0 --top_p 0.7`
+to reproduce the exact paper setting.
+
+### Reference results (temperature = 0, greedy)
+
+Qwen2.5-VL-7B-Instruct + Proactive, on the full benchmark (3,658 instances):
+
+| Split | Type-Acc | Precision | Recall | F1 | FTR↓ |
+|-------|:-------:|:--------:|:------:|:----:|:----:|
+| **Overall** | 49.29 | 54.23 | 54.19 | 53.83 | 8.86 |
+| &nbsp;&nbsp;L1 | 72.41 | 75.20 | 75.33 | 75.16 | 6.98 |
+| &nbsp;&nbsp;L2 | 57.93 | 63.52 | 63.44 | 63.10 | 7.12 |
+| &nbsp;&nbsp;L3 | 38.99 | 43.90 | 43.85 | 43.45 | 11.23 |
+| **TEXT** | 64.04 | 65.60 | 65.58 | 65.46 | 1.31 |
+| **GUI** | 34.57 | 42.88 | 42.81 | 42.23 | 24.37 |
+
+All scores are percentages. Numbers are deterministic under greedy decoding.
 
 ## Citation
 
