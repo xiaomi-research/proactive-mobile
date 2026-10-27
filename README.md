@@ -4,6 +4,7 @@
 
 [![Paper](https://img.shields.io/badge/Paper-arXiv:2602.21858-red)](https://arxiv.org/abs/2602.21858)
 [![Dataset](https://img.shields.io/badge/🤗%20Dataset-ProactiveMobile-yellow)](https://huggingface.co/datasets/xiaomi-research/ProactiveMobile)
+[![Model](https://img.shields.io/badge/🤗%20Model-ProactiveMobile--Qwen2.5--VL--7B-orange)](https://huggingface.co/xiaomi-research/ProactiveMobile-Qwen2.5-VL-7B)
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 </div>
@@ -35,7 +36,7 @@ dataset = load_dataset("xiaomi-research/ProactiveMobile")
 
 ## Model
 
-The fine-tuned proactive agent (Qwen2.5-VL-7B-Instruct + Proactive) will be released on 🤗 Hugging Face. *(Link coming soon.)*
+The fine-tuned proactive agent (Qwen2.5-VL-7B-Instruct + Proactive) is released on 🤗 Hugging Face: [**xiaomi-research/ProactiveMobile-Qwen2.5-VL-7B**](https://huggingface.co/xiaomi-research/ProactiveMobile-Qwen2.5-VL-7B)
 
 ## Inference & Evaluation
 
